@@ -55,6 +55,9 @@ def run(inputFileNameAndPath):
 
 	#Paste Circle to new image_Input
 	newImage = pdb.gimp_edit_paste_as_new()
+	
+	#Flip Image
+	pdb.gimp_image_flip(newImage, 1)
 
 	#Resize image_Input
 	pdb.gimp_layer_resize(newImage.layers[0], 512, 512, 0, 0)
