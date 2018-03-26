@@ -41,11 +41,18 @@ def run(inputFileNameAndPath):
 	##########################################################
 	#Part 1 - Get the circle image
 	##########################################################
+	#Set background color
+	pdb.gimp_palette_set_background('green')
+	
 	#Load File
 	image_Input = pdb.file_png_load(inputFile, inputFile)
 
 	#Scale file to correct size
 	pdb.gimp_image_scale(image_Input, 284, 284)
+	
+	#flatten image
+	flatLayer = pdb.gimp_image_flatten(image_Input)
+	
 
 	#Get ellipse selection (circle)
 	pdb.gimp_image_select_ellipse(image_Input, 2, 0, 0, 286, 286)
@@ -72,7 +79,7 @@ def run(inputFileNameAndPath):
 
 	#Create new image
 	image_New = gimp.Image(512, 512)
-
+		
 	#Adds tile template to image
 	File_template = imageAssetPath_Base
 	layer_Template = pdb.gimp_file_load_layer(image_New, File_template)
@@ -82,7 +89,7 @@ def run(inputFileNameAndPath):
 	layer_Circle = pdb.gimp_file_load_layer(image_New, outputFile)
 	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
 	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
+	
 	#Saves base new image
 	File_Base = outputFolder + '\saved_BaseTile.png'
 	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
@@ -144,6 +151,10 @@ def CreateStatusEffectImage(status,filePath,File_Base,outputFolder,outputFileNam
 	#Saves base new image
 	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
 	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
+	
+#def CreateImage():
+#	return 
+
 
 
 
