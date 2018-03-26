@@ -6,23 +6,11 @@ from gimpfu import *
 def run(inputFileNameAndPath):
 
 	##########################################################
-	#Instructions
-	##########################################################
-
-	#To run this script:
-	#Open cmd.exe
-	#Run cd <directory where this script is>
-	#Paste the code below and press enter
-
-	#"C:\Program Files\GIMP 2\bin\gimp-2.8.exe" gimp -idf --batch-interpreter=python-fu-eval -b "import sys; sys.path =['.'] + sys.path; import batch_CreateURealmsTileImages; batch_CreateURealmsTileImages.run('<insert file path and name here>')" -b "pdb.gimp_quit(1)"
-
-
-	##########################################################
 	#Part 0 - Setup
 	##########################################################
 	
 	#Vars from Input File	
-	#inputFileNameAndPath = 'C:\Users\Public\GimpSandbox\example.png'
+	#inputFileNameAndPath = 'C:\Users\sean-\Desktop\example.png'
 	filePath = os.path.dirname(inputFileNameAndPath)
 	fileName = os.path.basename(inputFileNameAndPath)
 	fileNameNoExt = os.path.splitext(os.path.basename(fileName))[0]
@@ -38,17 +26,17 @@ def run(inputFileNameAndPath):
 	currentDirectory = os.getcwd()
 	
 	#Set images assets path
-	imageAssetPath = currentDirectory + "\image_Assets"
+	imageAssetPath = currentDirectory + '\image_Assets'
 	
 	imageAssetPath_Base = imageAssetPath+'\BlankTileTemplate.png'
-	imageAssetPath_Blinded = imageAssetPath+'\statuseffect_blinded.png'
-	imageAssetPath_Burning = imageAssetPath+'\statuseffect_burning.png'
-	imageAssetPath_Charmed = imageAssetPath+'\statuseffect_charmed.png'
-	imageAssetPath_Defeated = imageAssetPath+'\statuseffect_defeated.png'
-	imageAssetPath_Frozen =imageAssetPath+'\statuseffect_frozen.png'
-	imageAssetPath_Poisoned = imageAssetPath+'\statuseffect_poisoned.png'
-	imageAssetPath_Silenced =imageAssetPath+'\statuseffect_silenced.png'
-	imageAssetPath_Stunned = imageAssetPath+'\statuseffect_stunned.png'
+	imageAssetPath_Blinded = imageAssetPath +'\\blinded.png'
+	imageAssetPath_Burning = imageAssetPath +'\\burning.png'
+	imageAssetPath_Charmed = imageAssetPath +'\\charmed.png'
+	imageAssetPath_Defeated = imageAssetPath +'\\defeated.png'
+	imageAssetPath_Frozen = imageAssetPath +'\\frozen.png'
+	imageAssetPath_Poisoned = imageAssetPath +'\\poisoned.png'
+	imageAssetPath_Silenced = imageAssetPath +'\\silenced.png'
+	imageAssetPath_Stunned = imageAssetPath +'\\stunned.png'
 
 	##########################################################
 	#Part 1 - Get the circle image
@@ -72,8 +60,7 @@ def run(inputFileNameAndPath):
 	pdb.gimp_layer_resize(newImage.layers[0], 512, 512, 0, 0)
 
 	#Save circle as new image_Input
-	#outputFile = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
-	outputFile = filePath + "\saved_imageAsCircle.png""
+	outputFile = filePath + '\saved_imageAsCircle.png'
 	pdb.file_png_save_defaults(newImage, newImage.active_layer, outputFile, outputFile)
 
 	##########################################################
@@ -89,202 +76,73 @@ def run(inputFileNameAndPath):
 	pdb.gimp_image_insert_layer(image_New, layer_Template, None, 0)
 
 	#Adds circle image to image
-	#File_circle = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
-	File_circle = outputFile
-	layer_Circle = pdb.gimp_file_load_layer(image_New, File_circle)
+	layer_Circle = pdb.gimp_file_load_layer(image_New, outputFile)
 	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
 	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
 
 	#Saves base new image
-	File_Base = outputFolder + "\saved_BaseTile.png"
+	File_Base = outputFolder + '\saved_BaseTile.png'
 	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
 
 	##########################################################
 	#Part 3 - Create Status Effect images
 	##########################################################
 
-	##########################################################
-	#Blind
-	##########################################################
-	
+	# statusEffects = [imageAssetPath_Blinded,imageAssetPath_Burning,imageAssetPath_Charmed,imageAssetPath_Defeated,imageAssetPath_Frozen,imageAssetPath_Poisoned,imageAssetPath_Silenced,imageAssetPath_Stunned]
+		
+	# for status in statusEffects:
+		# pdb.gimp_message(x)
+		# CreateStatusEffectImage(status,File_Base,outputFolder,outputFileName)
+		
+		
 	status = 'Blind'
-	filepath = imageAssetPath_Blinded
-
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
+	CreateStatusEffectImage(status,imageAssetPath_Blinded,File_Base,outputFolder,outputFileName)
 	
-	##########################################################
-	#Burning
-	##########################################################
-	status =  'Burning'
-	filepath = imageAssetPath_Burning
-
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
-	
-	##########################################################
-	#Charmed
-	##########################################################	
+	status = 'Burning'
+	CreateStatusEffectImage(status,imageAssetPath_Burning,File_Base,outputFolder,outputFileName)
+		
 	status = 'Charmed'
-	filepath = imageAssetPath_Charmed
-
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
+	CreateStatusEffectImage(status,imageAssetPath_Charmed,File_Base,outputFolder,outputFileName)
 	
-	##########################################################
-	#Defeated
-	##########################################################	
 	status = 'Defeated'
-	filepath = imageAssetPath_Defeated
+	CreateStatusEffectImage(status,imageAssetPath_Defeated,File_Base,outputFolder,outputFileName)
 
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
-
-	##########################################################
-	#Frozen
-	##########################################################	
 	status = 'Frozen'
-	filepath = imageAssetPath_Frozen
-	
-	#Create new image
-	image_New = gimp.Image(512, 512)
+	CreateStatusEffectImage(status,imageAssetPath_Frozen,File_Base,outputFolder,outputFileName)
 
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
-
-	##########################################################
-	#Poisoned
-	##########################################################	
 	status = 'Poisoned'
-	filepath = imageAssetPath_Poisoned
+	CreateStatusEffectImage(status,imageAssetPath_Poisoned,File_Base,outputFolder,outputFileName)
 	
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
-
-	##########################################################
-	#Silenced
-	##########################################################	
 	status = 'Silenced'
-	filepath = imageAssetPath_Silenced
+	CreateStatusEffectImage(status,imageAssetPath_Silenced,File_Base,outputFolder,outputFileName)
 	
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
-	
-	##########################################################
-	#Stunned
-	##########################################################	
-
 	status = 'Stunned'
-	filepath = imageAssetPath_Stunned
-	
-	#Create new image
-	image_New = gimp.Image(512, 512)
-
-	#Adds tile template to image
-	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
-	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
-
-	#Adds circle image to image
-	layer_Circle = pdb.gimp_file_load_layer(image_New, filepath)
-	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
-	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
-
-	#Saves base new image
-	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
-	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
+	CreateStatusEffectImage(status,imageAssetPath_Stunned,File_Base,outputFolder,outputFileName)
 	
 	##########################################################
 	#Clean up
 	##########################################################	
 	os.remove(outputFile) 
+	
+def CreateStatusEffectImage(status,filePath,File_Base,outputFolder,outputFileName):
+
+	#Create new image
+	image_New = gimp.Image(512, 512)
+
+	#Adds tile template to image
+	layer_Base = pdb.gimp_file_load_layer(image_New, File_Base)
+	pdb.gimp_image_insert_layer(image_New, layer_Base, None, 0)
+
+	#Adds circle image to image
+	layer_Circle = pdb.gimp_file_load_layer(image_New, filePath)
+	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
+	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
+
+	#Saves base new image
+	File_Base = outputFolder + "\\" + outputFileName + "_" + status + ".png"
+	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
+
+
 
 	
 
