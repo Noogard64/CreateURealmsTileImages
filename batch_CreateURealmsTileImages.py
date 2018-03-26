@@ -41,19 +41,12 @@ def run(inputFileNameAndPath):
 	##########################################################
 	#Part 1 - Get the circle image
 	##########################################################
-	#Set background color
-	pdb.gimp_palette_set_background('green')
-	
 	#Load File
 	image_Input = pdb.file_png_load(inputFile, inputFile)
 
 	#Scale file to correct size
 	pdb.gimp_image_scale(image_Input, 284, 284)
 	
-	#flatten image
-	flatLayer = pdb.gimp_image_flatten(image_Input)
-	
-
 	#Get ellipse selection (circle)
 	pdb.gimp_image_select_ellipse(image_Input, 2, 0, 0, 286, 286)
 
