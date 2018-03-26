@@ -40,6 +40,7 @@ def run(inputFileNameAndPath):
 	#Set images assets path
 	imageAssetPath = currentDirectory + "\image_Assets"
 	
+	imageAssetPath_Base = imageAssetPath+'\BlankTileTemplate.png'
 	imageAssetPath_Blinded = imageAssetPath+'\statuseffect_blinded.png'
 	imageAssetPath_Burning = imageAssetPath+'\statuseffect_burning.png'
 	imageAssetPath_Charmed = imageAssetPath+'\statuseffect_charmed.png'
@@ -71,7 +72,8 @@ def run(inputFileNameAndPath):
 	pdb.gimp_layer_resize(newImage.layers[0], 512, 512, 0, 0)
 
 	#Save circle as new image_Input
-	outputFile = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
+	#outputFile = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
+	outputFile = filePath + "\saved_imageAsCircle.png""
 	pdb.file_png_save_defaults(newImage, newImage.active_layer, outputFile, outputFile)
 
 	##########################################################
@@ -82,14 +84,13 @@ def run(inputFileNameAndPath):
 	image_New = gimp.Image(512, 512)
 
 	#Adds tile template to image
-	File_template = "C:\Users\Public\GimpSandbox\Assets\BlankTileTemplate.png"
+	File_template = imageAssetPath_Base
 	layer_Template = pdb.gimp_file_load_layer(image_New, File_template)
 	pdb.gimp_image_insert_layer(image_New, layer_Template, None, 0)
-	#layer = pdb.gimp_image_merge_down(image_New, layer_Template, 1)
-
 
 	#Adds circle image to image
-	File_circle = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
+	#File_circle = "C:\Users\Public\GimpSandbox\saved_imageAsCircle.png"
+	File_circle = outputFile
 	layer_Circle = pdb.gimp_file_load_layer(image_New, File_circle)
 	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
 	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
