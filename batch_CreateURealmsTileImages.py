@@ -41,28 +41,37 @@ def run(inputFileNameAndPath):
 	##########################################################
 	#Part 1 - Get the circle image
 	##########################################################
+
 	#Load File
+	pdb.gimp_message('Loading file...')
 	image_Input = pdb.file_png_load(inputFile, inputFile)
 
 	#Scale file to correct size
+	pdb.gimp_message('Scaling image...')
 	pdb.gimp_image_scale(image_Input, 284, 284)
 	
 	#Get ellipse selection (circle)
+	pdb.gimp_message('Ellipsing image...')
 	pdb.gimp_image_select_ellipse(image_Input, 2, 0, 0, 286, 286)
 
 	#Copy circle
+	pdb.gimp_message('Copying image...')	
 	pdb.gimp_edit_copy(image_Input.layers[0])
 
 	#Paste Circle to new image_Input
+	pdb.gimp_message('Pasting image...')		
 	newImage = pdb.gimp_edit_paste_as_new()
 	
 	#Flip Image
+	pdb.gimp_message('Flipping image...')	
 	pdb.gimp_image_flip(newImage, 1)
 
 	#Resize image_Input
+	pdb.gimp_message('Resizing image...')	
 	pdb.gimp_layer_resize(newImage.layers[0], 512, 512, 0, 0)
 
 	#Save circle as new image_Input
+	pdb.gimp_message('Saving file...')	
 	outputFile = filePath + '\saved_imageAsCircle.png'
 	pdb.file_png_save_defaults(newImage, newImage.active_layer, outputFile, outputFile)
 
@@ -71,19 +80,23 @@ def run(inputFileNameAndPath):
 	##########################################################
 
 	#Create new image
+	pdb.gimp_message('Creating new image...')	
 	image_New = gimp.Image(512, 512)
 		
 	#Adds tile template to image
+	pdb.gimp_message('Merging images...')	
 	File_template = imageAssetPath_Base
 	layer_Template = pdb.gimp_file_load_layer(image_New, File_template)
 	pdb.gimp_image_insert_layer(image_New, layer_Template, None, 0)
 
 	#Adds circle image to image
+	pdb.gimp_message('Merging another image...')	
 	layer_Circle = pdb.gimp_file_load_layer(image_New, outputFile)
 	pdb.gimp_image_insert_layer(image_New, layer_Circle, None, 0)
 	layer = pdb.gimp_image_merge_down(image_New, layer_Circle, 1)
 	
 	#Saves base new image
+	pdb.gimp_message('Saving another file...')		
 	File_Base = outputFolder + '\saved_BaseTile.png'
 	pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
 
@@ -130,6 +143,7 @@ def run(inputFileNameAndPath):
 def CreateStatusEffectImage(status,filePath,File_Base,outputFolder,outputFileName):
 
 	#Create new image
+	pdb.gimp_message('Creating status image [' + status + ']...')	
 	image_New = gimp.Image(512, 512)
 
 	#Adds tile template to image

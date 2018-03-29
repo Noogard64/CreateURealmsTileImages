@@ -7,7 +7,7 @@ setlocal
 
 for /f "delims=" %%I in ('powershell -noprofile "iex (${%~f0} | out-string)"') do (
     echo Starting process for %%~I
-	"C:\Program Files\GIMP 2\bin\gimp-2.8.exe" gimp -idf --batch-interpreter=python-fu-eval -b "import sys; sys.path =['.'] + sys.path; import batch_CreateURealmsTileImages; batch_CreateURealmsTileImages.run('%%~I')" -b "pdb.gimp_quit(1)"
+	"C:\Program Files\GIMP 2\bin\gimp-2.8.exe" gimp --verbose -idf --batch-interpreter=python-fu-eval -b "import sys; sys.path =['.'] + sys.path; import batch_CreateURealmsTileImages; batch_CreateURealmsTileImages.run('%%~I')" -b "pdb.gimp_quit(1)"
 )
 Pause
 goto :EOF
