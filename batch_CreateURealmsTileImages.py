@@ -100,7 +100,7 @@ def run(inputFileNameAndPath):
 		
 		#Saves base new image
 		pdb.gimp_message('Saving another file...')		
-		File_Base = outputFolder + '\saved_BaseTile.png'
+		File_Base = outputFolder + '\\'+ fileNameNoExt + '.png'
 		pdb.file_png_save_defaults(image_New, image_New.active_layer, File_Base, File_Base)
 	except Exception as e:
 		print e.args[0]
